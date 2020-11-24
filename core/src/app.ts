@@ -6,6 +6,7 @@ import gamesReducer, {
   focusGame,
   addScoringEvent,
   addRobotPhaseChangeEvent,
+  finishGame,
 } from '@/slices/games';
 import { RumbleGamePhase } from '@/types';
 
@@ -41,3 +42,4 @@ store.dispatch(
     points: 5,
   })
 );
+store.dispatch(finishGame());

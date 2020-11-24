@@ -100,6 +100,16 @@ const gamesSlice = createSlice({
         };
       },
     },
+    finishGame: (state) => {
+      state = gamesAdapter.updateOne(state, {
+        id: state.currentGameId,
+        changes: {
+          complete: true,
+        },
+      });
+      state.currentGameId = null;
+      return state;
+    },
   },
 });
 
@@ -108,6 +118,7 @@ export const {
   focusGame,
   addScoringEvent,
   addRobotPhaseChangeEvent,
+  finishGame,
 } = gamesSlice.actions;
 export const gamesSelectors = gamesAdapter.getSelectors();
 export default gamesSlice.reducer;
