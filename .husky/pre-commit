@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname $0)/_/husky.sh"
 
-yarn --cwd core test && yarn --cwd core run check
+yarn --cwd core test && yarn --cwd core run check && yarn --cwd client run check 
