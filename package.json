@@ -1,7 +1,8 @@
 {
   "private": true,
   "workspaces": [
-    "core"
+    "core",
+    "client"
   ],
   "scripts": {
     "postinstall": "husky install",
