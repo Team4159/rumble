@@ -1,14 +1,22 @@
 import { Middleware } from 'redux';
 
+import { Server } from 'socket.io';
+
 import { RootState } from '@/app';
 
-const socketMiddleware: Middleware<{}, RootState> = (store) => {
+import { diff } from 'deep-object-diff';
+
+const createSocketMiddleware = (io: Server): Middleware<{}, RootState> => (
+  store
+) => {
   return (next) => (action) => {
-    console.log('dispatching', action);
+    const oldState = store.getState();
     const result = next(action);
-    console.log('next state', store.getState());
+    const newState = store.getState();
+    const stateDiff = diff(oldState, newState);
+    io.emit('stateDiff', stateDiff);
     return result;
   };
 };
 
-export default socketMiddleware;
+export default createSocketMiddleware;
