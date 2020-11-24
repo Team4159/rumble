@@ -8,24 +8,7 @@
       "sourceMap": true,
       "outDir": "dist",
       "baseUrl": "src",
-      "skipLibCheck": true,
-      "paths": {
-        "@/commands/*": [
-          "commands/*"
-        ],
-        "@/modules/*": [
-          "modules/*"
-        ],
-        "@/util/*": [
-          "util/*"
-        ],
-        "@/models/*": [
-          "models/*"
-        ],
-        "@/client": [
-          "index"
-        ]
-      }
+      "skipLibCheck": true
   },
   "include": [
       "src/**/*"
