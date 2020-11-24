@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "workspaces": [
+    "core"
+  ],
+  "scripts": {
+    "postinstall": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^5.0.4"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+      "module": "commonjs",
+      "esModuleInterop": true,
+      "target": "es6",
+      "noImplicitAny": true,
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "outDir": "dist",
+      "baseUrl": "src",
+      "skipLibCheck": true,
+      "paths": {
+        "@/commands/*": [
+          "commands/*"
+        ],
+        "@/modules/*": [
+          "modules/*"
+        ],
+        "@/util/*": [
+          "util/*"
+        ],
+        "@/models/*": [
+          "models/*"
+        ],
+        "@/client": [
+          "index"
+        ]
+      }
+  },
+  "include": [
+      "src/**/*"
+  ]
+}
