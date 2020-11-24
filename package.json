@@ -4,7 +4,8 @@
     "core"
   ],
   "scripts": {
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "develop": "yarn --cwd core start:watch"
   },
   "devDependencies": {
     "husky": "^5.0.4"
