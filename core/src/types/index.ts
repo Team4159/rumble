@@ -1,3 +1,5 @@
+import { PayloadAction } from '@reduxjs/toolkit';
+
 export enum RumbleGamePhase {
   'DISABLED',
   'AUTONOMOUS',
@@ -15,12 +17,15 @@ export type RumblePhaseChangeEvent = {
   phase: RumbleGamePhase;
 };
 
+export type RumbleGameEvent = RumbleGameScoringEvent | RumblePhaseChangeEvent;
+
 export type RumbleGame = {
   number: number;
   teamNumber: number;
   complete: boolean;
   phase: RumbleGamePhase;
   score: number;
+  history: PayloadAction<RumbleGameEvent>[];
 };
 
 export type RumbleTeam = {

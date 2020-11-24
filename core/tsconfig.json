@@ -11,8 +11,10 @@
     "skipLibCheck": true,
     "paths": {
       "@/slices/*": ["slices/*"],
-      "@/types": ["types/index"],
-      "@/config": ["config"]
+      "@/middleware/*": ["middleware/*"],
+      "@/transport/*": ["transport/*"],
+      "@/types": ["types"],
+      "@/app": ["app"]
     }
   },
   "include": [

@@ -12,6 +12,7 @@ import {
   RumbleGamePhase,
   RumblePhaseChangeEvent,
   RumbleGameScoringEvent,
+  RumbleGameEvent,
 } from '@/types';
 
 const gamesAdapter = createEntityAdapter<RumbleGame>({
@@ -40,6 +41,7 @@ const gamesSlice = createSlice({
             complete: false,
             phase: RumbleGamePhase.DISABLED,
             score: 0,
+            history: [] as PayloadAction<RumbleGameEvent>[],
           },
         };
       },
@@ -56,19 +58,21 @@ const gamesSlice = createSlice({
             complete: null,
             score: null,
             phase: null,
+            history: null,
           }),
         };
       },
     },
     addScoringEvent: {
       reducer: (state, action: PayloadAction<RumbleGameScoringEvent>) => {
-        const currentScore = gamesAdapter
+        const currentGame = gamesAdapter
           .getSelectors()
-          .selectById(state, state.currentGameId).score;
+          .selectById(state, state.currentGameId);
         return gamesAdapter.updateOne(state, {
           id: state.currentGameId,
           changes: {
-            score: currentScore + action.payload.points,
+            score: currentGame.score + action.payload.points,
+            history: [...currentGame.history, action],
           },
         });
       },
@@ -84,10 +88,14 @@ const gamesSlice = createSlice({
     },
     addRobotPhaseChangeEvent: {
       reducer: (state, action: PayloadAction<RumblePhaseChangeEvent>) => {
+        const currentGame = gamesAdapter
+          .getSelectors()
+          .selectById(state, state.currentGameId);
         return gamesAdapter.updateOne(state, {
           id: state.currentGameId,
           changes: {
             phase: action.payload.phase,
+            history: [...currentGame.history, action],
           },
         });
       },
