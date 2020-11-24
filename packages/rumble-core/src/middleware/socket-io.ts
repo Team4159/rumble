@@ -14,7 +14,7 @@ const createSocketMiddleware = (io: Server): Middleware<{}, RootState> => (
     const result = next(action);
     const newState = store.getState();
     const stateDiff = diff(oldState, newState);
-    io.emit('stateDiff', stateDiff);
+    io.emit('rootStateDiff', stateDiff);
     return result;
   };
 };

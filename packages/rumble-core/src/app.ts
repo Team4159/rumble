@@ -34,6 +34,19 @@ const rootStore = configureStore({
   preloadedState,
 });
 
+io.on('connection', (socket) => {
+  console.log('hi');
+  socket.emit('initialRootState', rootStore.getState());
+  setTimeout(() => {
+    rootStore.dispatch(
+      addGame({
+        number: 1,
+        teamNumber: 1,
+      })
+    );
+  }, 1000);
+});
+
 httpServer.listen(PORT, () => {
   console.log(`🚀 Listening on *:${PORT}`);
 });
