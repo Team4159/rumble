@@ -5,6 +5,7 @@
   ],
   "scripts": {
     "postinstall": "husky install",
+    "fix": "yarn workspace @rumble/core check:fix && yarn workspace @rumble/client check:fix",
     "develop": "concurrently \"yarn workspace @rumble/core start:watch\" \"yarn workspace @rumble/client dev\""
   },
   "devDependencies": {
