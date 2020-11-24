@@ -1,12 +1,11 @@
 {
   "private": true,
   "workspaces": [
-    "core",
-    "client"
+    "packages/*"
   ],
   "scripts": {
     "postinstall": "husky install",
-    "develop": "concurrently \"yarn --cwd core start:watch\" \"yarn --cwd client dev\""
+    "develop": "concurrently \"yarn workspace @rumble/core start:watch\" \"yarn workspace @rumble/client dev\""
   },
   "devDependencies": {
     "concurrently": "^5.3.0",

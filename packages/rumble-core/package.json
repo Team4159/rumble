@@ -1,6 +1,7 @@
 {
   "name": "@rumble/core",
   "version": "0.1.0",
+  "private": true,
   "scripts": {
     "build": "tsc",
     "start": "ts-node -P tsconfig.json -r tsconfig-paths/register ./src/app.ts",

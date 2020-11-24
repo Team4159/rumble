@@ -11,4 +11,4 @@ jobs:
         with:
           node-version: '12.x'
       - run: yarn install --frozen-lockfile
-      - run: yarn --cwd core run format:check
+      - run: yarn workspace @rumble/core run format:check
