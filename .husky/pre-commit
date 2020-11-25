@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname $0)/_/husky.sh"
 
-yarn workspace @rumble/server test && yarn workspace @rumble/server run check && yarn workspace @rumble/client run check && yarn workspace @rumble/core run check
+yarn workspace @rumble/server run check && yarn workspace @rumble/client run check && yarn workspace @rumble/core run check
