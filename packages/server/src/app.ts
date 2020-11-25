@@ -34,8 +34,6 @@ const rootStore = configureStore({
   preloadedState,
 });
 
-const i = 0;
-
 io.on('connection', (socket) => {
   console.log('New connection');
   socket.emit('initialRootState', rootStore.getState());

@@ -25,6 +25,12 @@ export const gamesAdapter = createEntityAdapter<RumbleGame>({
   },
 });
 
+const GAME_STATE_DEFAULTS = {
+  phase: RumbleGamePhase.PRE,
+  score: 0,
+  history: [] as PayloadAction<RumbleGameEvent>[],
+};
+
 const gamesSlice = createSlice({
   name: 'games',
   initialState: gamesAdapter.getInitialState({
@@ -38,9 +44,7 @@ const gamesSlice = createSlice({
           payload: {
             number: payload.number,
             teamNumber: payload.teamNumber,
-            phase: RumbleGamePhase.PRE,
-            score: 0,
-            history: [] as PayloadAction<RumbleGameEvent>[],
+            ...GAME_STATE_DEFAULTS,
           },
         };
       },
@@ -54,12 +58,16 @@ const gamesSlice = createSlice({
         return {
           payload: gamesAdapter.selectId({
             ...payload,
-            score: null,
-            phase: null,
-            history: null,
+            ...GAME_STATE_DEFAULTS,
           }),
         };
       },
+    },
+    resetGame: (state) => {
+      return gamesAdapter.updateOne(state, {
+        id: state.currentGameId,
+        changes: GAME_STATE_DEFAULTS,
+      });
     },
     addScoringEvent: {
       reducer: (state, action: PayloadAction<RumbleGameScoringEvent>) => {
@@ -112,8 +120,9 @@ const gamesSlice = createSlice({
 export const {
   addGame,
   focusGame,
+  resetGame,
   addScoringEvent,
   addPhaseChangeEvent,
 } = gamesSlice.actions;
+export const gamesReducer = gamesSlice.reducer;
 export const gamesSelectors = gamesAdapter.getSelectors();
-export default gamesSlice.reducer;

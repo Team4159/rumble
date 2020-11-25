@@ -6,6 +6,7 @@ import {
   gamesSelectors,
   addGame,
   focusGame,
+  resetGame,
   addPhaseChangeEvent,
   addScoringEvent,
   RumbleGamePhase,
@@ -21,6 +22,7 @@ type GamesState = ReturnType<typeof gamesReducer>;
 type RootState = {
   games: GamesState;
 };
+
 enum ScoringEvents {
   CROSS_AUTO_LINE = 'CROSS_AUTO_LINE',
   SCORE_AUTO_CUBE = 'SCORE_AUTO_CUBE',
@@ -30,9 +32,12 @@ enum ScoringEvents {
 
 export default function Home() {
   const [socket] = useState(io('http://localhost:8000'));
+
   const [loaded, setLoaded] = useState(false);
-  const [counter, setCounter] = useState(0);
   const [rootState, setRootState] = useState({} as RootState);
+
+  const [teamNumber, setTeamNumber] = useState(1);
+  const [gameNumber, setGameNumber] = useState(1);
 
   useEffect(() => {
     socket.on('initialRootState', (initialRootState) => {
@@ -72,7 +77,8 @@ export default function Home() {
       {currentGame && (
         <div>
           <p>
-            Team {currentGame.teamNumber} - Game {currentGame.number}
+            Team {currentGame.teamNumber} - Game {currentGame.number} -{' '}
+            {RumbleGamePhase[currentGame.phase]} - Score {currentGame.score}
           </p>
           <button
             type="button"
@@ -132,14 +138,24 @@ export default function Home() {
           >
             Park
           </button>
+          <button type="button" onClick={() => dispatch(resetGame())}>
+            Reset Game
+          </button>
+          <p>Actions</p>
+          <div style={{ height: '100px', overflowY: 'scroll' }}>
+            <ul>
+              {currentGame.history.map((action, idx) => (
+                <li key={idx}>{JSON.stringify(action)}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       )}
       <ul>
         {gamesSelectors.selectAll(rootState.games).map((game, idx) => (
           <div key={idx}>
             <li>
-              Team {game.teamNumber} - Game {game.number} - Phase{' '}
-              {RumbleGamePhase[game.phase]} - Score {game.score}
+              Team {game.teamNumber} - Game {game.number}
             </li>
             <button
               type="button"
@@ -157,17 +173,33 @@ export default function Home() {
           </div>
         ))}
       </ul>
-      <br />
+      <div>
+        Team Number:{' '}
+        <input
+          placeholder="Team Number"
+          type="number"
+          value={teamNumber}
+          onChange={(e) => setTeamNumber(+e.target.value)}
+        />
+      </div>
+      <div>
+        Game Number:{' '}
+        <input
+          placeholder="Game Number"
+          type="number"
+          value={gameNumber}
+          onChange={(e) => setGameNumber(+e.target.value)}
+        />
+      </div>
       <button
         type="button"
         onClick={() => {
           dispatch(
             addGame({
-              number: counter,
-              teamNumber: 1,
+              number: gameNumber,
+              teamNumber,
             })
           );
-          setCounter(counter + 1);
         }}
       >
         Add Game
