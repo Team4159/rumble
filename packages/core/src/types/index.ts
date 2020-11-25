@@ -1,11 +1,11 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 
 export enum RumbleGamePhase {
-  'PRE',
-  'AUTONOMOUS',
-  'TELEOPERATED',
-  'ENABLED',
-  'POST',
+  PRE,
+  AUTONOMOUS,
+  TELEOPERATED,
+  ENDGAME,
+  POST,
 }
 
 export type RumbleGameScoringEvent = {

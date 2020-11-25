@@ -1,8 +1,10 @@
 export {
   default as gamesReducer,
+  gamesAdapter,
   gamesSelectors,
   addGame,
   focusGame,
   addScoringEvent,
-  addRobotPhaseChangeEvent,
+  addPhaseChangeEvent,
 } from './slices/games';
+export * from './types';

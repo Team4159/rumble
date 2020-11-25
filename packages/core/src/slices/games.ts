@@ -15,7 +15,7 @@ import {
   RumbleGameEvent,
 } from '../types';
 
-const gamesAdapter = createEntityAdapter<RumbleGame>({
+export const gamesAdapter = createEntityAdapter<RumbleGame>({
   selectId: (game) => `${game.teamNumber}/${game.number}`,
   sortComparer: (a, b) => {
     if (a.teamNumber !== b.teamNumber) {
@@ -84,7 +84,7 @@ const gamesSlice = createSlice({
         };
       },
     },
-    addRobotPhaseChangeEvent: {
+    addPhaseChangeEvent: {
       reducer: (state, action: PayloadAction<RumblePhaseChangeEvent>) => {
         const currentGame = gamesAdapter
           .getSelectors()
@@ -113,7 +113,7 @@ export const {
   addGame,
   focusGame,
   addScoringEvent,
-  addRobotPhaseChangeEvent,
+  addPhaseChangeEvent,
 } = gamesSlice.actions;
 export const gamesSelectors = gamesAdapter.getSelectors();
 export default gamesSlice.reducer;
