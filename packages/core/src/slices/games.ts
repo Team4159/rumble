@@ -38,8 +38,7 @@ const gamesSlice = createSlice({
           payload: {
             number: payload.number,
             teamNumber: payload.teamNumber,
-            complete: false,
-            phase: RumbleGamePhase.DISABLED,
+            phase: RumbleGamePhase.PRE,
             score: 0,
             history: [] as PayloadAction<RumbleGameEvent>[],
           },
@@ -55,7 +54,6 @@ const gamesSlice = createSlice({
         return {
           payload: gamesAdapter.selectId({
             ...payload,
-            complete: null,
             score: null,
             phase: null,
             history: null,
@@ -108,16 +106,6 @@ const gamesSlice = createSlice({
         };
       },
     },
-    finishGame: (state) => {
-      state = gamesAdapter.updateOne(state, {
-        id: state.currentGameId,
-        changes: {
-          complete: true,
-        },
-      });
-      state.currentGameId = null;
-      return state;
-    },
   },
 });
 
@@ -126,7 +114,6 @@ export const {
   focusGame,
   addScoringEvent,
   addRobotPhaseChangeEvent,
-  finishGame,
 } = gamesSlice.actions;
 export const gamesSelectors = gamesAdapter.getSelectors();
 export default gamesSlice.reducer;

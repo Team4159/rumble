@@ -5,5 +5,4 @@ export {
   focusGame,
   addScoringEvent,
   addRobotPhaseChangeEvent,
-  finishGame,
 } from './slices/games';
