@@ -1,7 +1,7 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 
-import gamesReducer, { addGame } from '@/slices/games';
+import { gamesReducer, addGame } from '@rumble/core';
 import createSocketMiddleware from '@/middleware/socket-io';
 import { createSocketEngine } from '@/transport/socket-io';
 
@@ -34,6 +34,8 @@ const rootStore = configureStore({
   preloadedState,
 });
 
+let i = 0;
+
 io.on('connection', (socket) => {
   console.log('hi');
   socket.emit('initialRootState', rootStore.getState());
@@ -41,7 +43,7 @@ io.on('connection', (socket) => {
     rootStore.dispatch(
       addGame({
         number: 1,
-        teamNumber: 1,
+        teamNumber: i++,
       })
     );
   }, 1000);

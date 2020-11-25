@@ -5,8 +5,8 @@
   ],
   "scripts": {
     "postinstall": "husky install",
-    "fix": "yarn workspace @rumble/core check:fix && yarn workspace @rumble/client check:fix",
-    "develop": "concurrently \"yarn workspace @rumble/core start:watch\" \"yarn workspace @rumble/client dev\""
+    "fix": "yarn workspace @rumble/core check:fix && yarn workspace @rumble/server check:fix && yarn workspace @rumble/client check:fix",
+    "develop": "concurrently \"yarn workspace @rumble/core build:watch\" \"yarn workspace @rumble/server start:watch\" \"yarn workspace @rumble/client dev\""
   },
   "devDependencies": {
     "concurrently": "^5.3.0",

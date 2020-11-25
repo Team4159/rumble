@@ -13,7 +13,7 @@ import {
   RumblePhaseChangeEvent,
   RumbleGameScoringEvent,
   RumbleGameEvent,
-} from '@/types';
+} from '../types';
 
 const gamesAdapter = createEntityAdapter<RumbleGame>({
   selectId: (game) => `${game.teamNumber}/${game.number}`,

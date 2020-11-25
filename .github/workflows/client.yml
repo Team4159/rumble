@@ -1,4 +1,4 @@
-name: core-build
+name: client
 
 on: [push, pull_request]
 
@@ -11,4 +11,6 @@ jobs:
         with:
           node-version: '12.x'
       - run: yarn install --frozen-lockfile
-      - run: yarn workspace @rumble/core run build
+      - run: yarn workspace @rumble/client run build
+      - run: yarn workspace @rumble/client run lint:check
+      - run: yarn workspace @rumble/client run format:check

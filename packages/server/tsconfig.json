@@ -9,9 +9,13 @@
     "outDir": "dist",
     "baseUrl": "src",
     "skipLibCheck": true,
-    "declaration": true
+    "paths": {
+      "@/middleware/*": ["middleware/*"],
+      "@/transport/*": ["transport/*"],
+      "@/app": ["app"]
+    }
   },
   "include": [
-    "src/**/*"
+    "src/**/*", "../core/src/types", "../core/src/slices"
   ]
 }

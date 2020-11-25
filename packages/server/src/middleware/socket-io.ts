@@ -4,7 +4,7 @@ import { Server } from 'socket.io';
 
 import { RootState } from '@/app';
 
-import { diff } from 'deep-object-diff';
+import { diff } from 'deep-diff';
 
 const createSocketMiddleware = (io: Server): Middleware<{}, RootState> => (
   store
@@ -14,7 +14,9 @@ const createSocketMiddleware = (io: Server): Middleware<{}, RootState> => (
     const result = next(action);
     const newState = store.getState();
     const stateDiff = diff(oldState, newState);
-    io.emit('rootStateDiff', stateDiff);
+    if (stateDiff) {
+      io.emit('rootStateDiff', stateDiff);
+    }
     return result;
   };
 };
