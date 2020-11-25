@@ -11,6 +11,6 @@ jobs:
         with:
           node-version: '12.x'
       - run: yarn install --frozen-lockfile
-      - run: yarn workspace @rumble/server run test
+      - run: yarn workspace @rumble/server run build
       - run: yarn workspace @rumble/server run lint:check
       - run: yarn workspace @rumble/server run format:check
