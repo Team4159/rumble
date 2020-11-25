@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 
+import { addGame } from '@rumble/core';
+
 import io from 'socket.io-client';
 
 import { applyChange } from 'deep-diff';
 import cloneDeep from 'clone-deep';
 
 export default function Home() {
+  const [socket] = useState(io('http://localhost:8000'));
+  const [counter, setCounter] = useState(0);
   const [rootState, setRootState] = useState({});
+
   useEffect(() => {
-    const socket = io('http://localhost:8000');
     socket.on('initialRootState', setRootState);
     socket.on('rootStateDiff', (diff) => {
       setRootState((oldState) => {
@@ -21,6 +25,7 @@ export default function Home() {
       });
     });
   }, []);
+
   return (
     <div>
       <Head>
@@ -28,6 +33,22 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {JSON.stringify(rootState)}
+      <br />
+      <button
+        type="button"
+        onClick={() => {
+          socket.emit(
+            'dispatchAction',
+            addGame({
+              number: counter,
+              teamNumber: 1,
+            })
+          );
+          setCounter(counter + 1);
+        }}
+      >
+        Dispatch
+      </button>
     </div>
   );
 }
