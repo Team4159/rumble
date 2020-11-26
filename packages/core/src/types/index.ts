@@ -19,14 +19,13 @@ export type RumblePhaseChangeEvent = {
   phase: RumbleGamePhase;
 };
 
-export type RumbleGameEvent = RumbleGameScoringEvent | RumblePhaseChangeEvent;
-
 export type RumbleGame = {
   number: number;
   teamNumber: number;
   phase: RumbleGamePhase;
   score: number;
-  history: PayloadAction<RumbleGameEvent>[];
+  scoringHistory: RumbleGameScoringEvent[];
+  phaseHistory: RumblePhaseChangeEvent[];
 };
 
 export type RumbleTeam = {

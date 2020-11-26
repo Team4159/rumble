@@ -9,6 +9,8 @@ import {
   resetGame,
   addPhaseChangeEvent,
   addScoringEvent,
+  undoLastScoringEvent,
+  undoLastPhaseChangeEvent,
   RumbleGamePhase,
 } from '@rumble/core';
 import { Action } from 'redux';
@@ -80,77 +82,120 @@ export default function Home() {
             Team {currentGame.teamNumber} - Game {currentGame.number} -{' '}
             {RumbleGamePhase[currentGame.phase]} - Score {currentGame.score}
           </p>
-          <button
-            type="button"
-            onClick={() => dispatch(addPhaseChangeEvent(currentGame.phase + 1))}
-          >
-            Next Phase
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              dispatch(
-                addScoringEvent({
-                  type: ScoringEvents.CROSS_AUTO_LINE,
-                  points: 5,
-                })
-              )
-            }
-          >
-            Cross Auto Line
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              dispatch(
-                addScoringEvent({
-                  type: ScoringEvents.SCORE_AUTO_CUBE,
-                  points: 10,
-                })
-              )
-            }
-          >
-            Score Auto Cube
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              dispatch(
-                addScoringEvent({
-                  type: ScoringEvents.SCORE_TELEOP_CUBE,
-                  points: 5,
-                })
-              )
-            }
-          >
-            Score Teleop Cube
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              dispatch(
-                addScoringEvent({
-                  type: ScoringEvents.PARK,
-                  points: 10,
-                })
-              )
-            }
-          >
-            Park
-          </button>
-          <button type="button" onClick={() => dispatch(resetGame())}>
-            Reset Game
-          </button>
           <p>Actions</p>
-          <div style={{ height: '100px', overflowY: 'scroll' }}>
-            <ul>
-              {currentGame.history.map((action, idx) => (
-                <li key={idx}>{JSON.stringify(action)}</li>
-              ))}
-            </ul>
+          <div>
+            <button
+              type="button"
+              onClick={() =>
+                dispatch(addPhaseChangeEvent(currentGame.phase + 1))
+              }
+            >
+              Next Phase
+            </button>
+            <button type="button" onClick={() => dispatch(resetGame())}>
+              Reset Game
+            </button>
+            <button
+              type="button"
+              onClick={() => dispatch(undoLastScoringEvent())}
+            >
+              Undo Last Scoring Event
+            </button>
+            <button
+              type="button"
+              onClick={() => dispatch(undoLastPhaseChangeEvent())}
+            >
+              Undo Last Phase Change Event
+            </button>
+          </div>
+          <div>
+            <button
+              type="button"
+              onClick={() =>
+                dispatch(
+                  addScoringEvent({
+                    type: ScoringEvents.CROSS_AUTO_LINE,
+                    points: 5,
+                  })
+                )
+              }
+            >
+              Cross Auto Line
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                dispatch(
+                  addScoringEvent({
+                    type: ScoringEvents.SCORE_AUTO_CUBE,
+                    points: 10,
+                  })
+                )
+              }
+            >
+              Score Auto Cube
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                dispatch(
+                  addScoringEvent({
+                    type: ScoringEvents.SCORE_TELEOP_CUBE,
+                    points: 5,
+                  })
+                )
+              }
+            >
+              Score Teleop Cube
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                dispatch(
+                  addScoringEvent({
+                    type: ScoringEvents.PARK,
+                    points: 10,
+                  })
+                )
+              }
+            >
+              Park
+            </button>
+          </div>
+          <p>History</p>
+          <div>
+            <div
+              style={{
+                display: 'inline-block',
+                height: '100px',
+                width: '50%',
+                overflowY: 'scroll',
+              }}
+            >
+              <ul>
+                {currentGame.phaseHistory.map((action, idx) => (
+                  <li key={idx}>{JSON.stringify(action)}</li>
+                ))}
+              </ul>
+            </div>
+            <div
+              style={{
+                display: 'inline-block',
+                height: '100px',
+                width: '50%',
+                overflowY: 'scroll',
+              }}
+            >
+              <ul>
+                {currentGame.scoringHistory.map((action, idx) => (
+                  <li key={idx}>{JSON.stringify(action)}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       )}
+      <p>Games</p>
       <ul>
         {gamesSelectors.selectAll(rootState.games).map((game, idx) => (
           <div key={idx}>

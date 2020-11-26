@@ -12,7 +12,6 @@ import {
   RumbleGamePhase,
   RumblePhaseChangeEvent,
   RumbleGameScoringEvent,
-  RumbleGameEvent,
 } from '../types';
 
 export const gamesAdapter = createEntityAdapter<RumbleGame>({
@@ -28,7 +27,8 @@ export const gamesAdapter = createEntityAdapter<RumbleGame>({
 const GAME_STATE_DEFAULTS = {
   phase: RumbleGamePhase.PRE,
   score: 0,
-  history: [] as PayloadAction<RumbleGameEvent>[],
+  scoringHistory: [] as RumbleGameScoringEvent[],
+  phaseHistory: [] as RumblePhaseChangeEvent[],
 };
 
 const gamesSlice = createSlice({
@@ -78,7 +78,7 @@ const gamesSlice = createSlice({
           id: state.currentGameId,
           changes: {
             score: currentGame.score + action.payload.points,
-            history: [...currentGame.history, action],
+            scoringHistory: [...currentGame.scoringHistory, action.payload],
           },
         });
       },
@@ -101,7 +101,7 @@ const gamesSlice = createSlice({
           id: state.currentGameId,
           changes: {
             phase: action.payload.phase,
-            history: [...currentGame.history, action],
+            phaseHistory: [...currentGame.phaseHistory, action.payload],
           },
         });
       },
@@ -114,6 +114,38 @@ const gamesSlice = createSlice({
         };
       },
     },
+    undoLastScoringEvent: (state) => {
+      const currentGame = gamesAdapter
+        .getSelectors()
+        .selectById(state, state.currentGameId);
+      const undoneScoringEvent = currentGame.scoringHistory.pop();
+      return gamesAdapter.updateOne(state, {
+        id: state.currentGameId,
+        changes: {
+          score: undoneScoringEvent
+            ? currentGame.score - undoneScoringEvent.points
+            : GAME_STATE_DEFAULTS.score,
+          scoringHistory: currentGame.scoringHistory,
+        },
+      });
+    },
+    undoLastPhaseChangeEvent: (state) => {
+      const currentGame = gamesAdapter
+        .getSelectors()
+        .selectById(state, state.currentGameId);
+      currentGame.phaseHistory.pop();
+      const lastPhaseChangeEvent =
+        currentGame.phaseHistory[currentGame.phaseHistory.length - 1];
+      return gamesAdapter.updateOne(state, {
+        id: state.currentGameId,
+        changes: {
+          phase: lastPhaseChangeEvent
+            ? lastPhaseChangeEvent.phase
+            : GAME_STATE_DEFAULTS.phase,
+          phaseHistory: currentGame.phaseHistory,
+        },
+      });
+    },
   },
 });
 
@@ -123,6 +155,8 @@ export const {
   resetGame,
   addScoringEvent,
   addPhaseChangeEvent,
+  undoLastScoringEvent,
+  undoLastPhaseChangeEvent,
 } = gamesSlice.actions;
 export const gamesReducer = gamesSlice.reducer;
 export const gamesSelectors = gamesAdapter.getSelectors();

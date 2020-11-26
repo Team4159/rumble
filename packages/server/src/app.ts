@@ -43,3 +43,6 @@ io.on('connection', (socket) => {
 httpServer.listen(PORT, () => {
   console.log(`🚀 Listening on *:${PORT}`);
 });
+
+// tslint:disable-next-line:no-empty
+process.on('exit', () => {});
