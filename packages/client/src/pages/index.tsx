@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 
 import {
-  gamesReducer,
   gamesSelectors,
   addGame,
   focusGame,
@@ -13,17 +12,7 @@ import {
   undoLastPhaseChangeEvent,
   RumbleGamePhase,
 } from '@rumble/core';
-import { Action } from 'redux';
-
-import io from 'socket.io-client';
-
-import { applyChange } from 'deep-diff';
-import cloneDeep from 'clone-deep';
-
-type GamesState = ReturnType<typeof gamesReducer>;
-type RootState = {
-  games: GamesState;
-};
+import useRumble from '@/hooks/useRumble';
 
 enum ScoringEvents {
   CROSS_AUTO_LINE = 'CROSS_AUTO_LINE',
@@ -33,40 +22,20 @@ enum ScoringEvents {
 }
 
 export default function Home() {
-  const [socket] = useState(io('http://localhost:8000'));
-
-  const [loaded, setLoaded] = useState(false);
-  const [rootState, setRootState] = useState({} as RootState);
+  const { loading, rumbleState, dispatch } = useRumble('http://localhost:8000');
 
   const [teamNumber, setTeamNumber] = useState(1);
   const [gameNumber, setGameNumber] = useState(1);
 
-  useEffect(() => {
-    socket.on('initialRootState', (initialRootState) => {
-      setRootState(initialRootState);
-      setLoaded(true);
-    });
-    socket.on('rootStateDiff', (diff) => {
-      setRootState((oldState) => {
-        const currentState = cloneDeep(oldState);
-        diff.forEach((change) => {
-          applyChange(currentState, null, change);
-        });
-        return currentState;
-      });
-    });
-  }, [socket]);
-
-  const dispatch = (action: Action) => {
-    socket.emit('dispatchAction', action);
-  };
-
-  if (!loaded) {
+  if (loading) {
     return 'Connecting...';
   }
 
-  const currentGame = rootState.games.currentGameId
-    ? gamesSelectors.selectById(rootState.games, rootState.games.currentGameId)
+  const currentGame = rumbleState.games.currentGameId
+    ? gamesSelectors.selectById(
+        rumbleState.games,
+        rumbleState.games.currentGameId
+      )
     : null;
 
   return (
@@ -197,7 +166,7 @@ export default function Home() {
       )}
       <p>Games</p>
       <ul>
-        {gamesSelectors.selectAll(rootState.games).map((game, idx) => (
+        {gamesSelectors.selectAll(rumbleState.games).map((game, idx) => (
           <div key={idx}>
             <li>
               Team {game.teamNumber} - Game {game.number}
