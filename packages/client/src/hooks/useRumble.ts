@@ -13,7 +13,7 @@ type RootState = {
   games: GamesState;
 };
 
-const useRumbleState = (url: string) => {
+const useRumble = (url: string) => {
   const socket = useMemo(() => io(url), [url]);
 
   const [loading, setLoaded] = useState(true);
@@ -42,4 +42,4 @@ const useRumbleState = (url: string) => {
   return { loading, rumbleState, dispatch };
 };
 
-export default useRumbleState;
+export default useRumble;
