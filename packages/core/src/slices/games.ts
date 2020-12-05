@@ -25,7 +25,7 @@ export const gamesAdapter = createEntityAdapter<RumbleGame>({
 });
 
 const GAME_STATE_DEFAULTS = {
-  phase: RumbleGamePhase.PRE,
+  phase: RumbleGamePhase['PRE-GAME'],
   score: 0,
   scoringHistory: [] as RumbleGameScoringEvent[],
   phaseHistory: [] as RumblePhaseChangeEvent[],

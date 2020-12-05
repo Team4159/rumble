@@ -56,9 +56,11 @@ export default function IndexPage() {
           <div>
             <Button
               type="button"
-              onClick={() =>
-                dispatch(addPhaseChangeEvent(currentGame.phase + 1))
-              }
+              onClick={() => {
+                if (RumbleGamePhase[currentGame.phase + 1]) {
+                  dispatch(addPhaseChangeEvent(currentGame.phase + 1));
+                }
+              }}
             >
               Next Phase
             </Button>

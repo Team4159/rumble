@@ -3,6 +3,7 @@ import logger from 'redux-logger';
 
 import { gamesReducer } from '@rumble/core';
 import createSocketMiddleware from '@/middleware/socket-io';
+import phaseSwitcherMiddleware from '@/middleware/phase-switcher';
 import { createSocketEngine } from '@/transport/socket-io';
 
 import express from 'express';
@@ -29,7 +30,10 @@ const io = createSocketEngine(httpServer);
 const rootStore = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(logger).concat(createSocketMiddleware(io)),
+    getDefaultMiddleware()
+      .concat(logger)
+      .concat(createSocketMiddleware(io))
+      .concat(phaseSwitcherMiddleware),
   devTools: process.env.NODE_ENV !== 'production',
   preloadedState,
 });
