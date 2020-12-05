@@ -184,7 +184,16 @@ export default function StreamOverlay() {
   );
 
   return (
-    <Stack isInline dir="row" maxHeight="100vh" p={6} spacing={3}>
+    <Stack
+      isInline
+      dir="row"
+      height="100vh"
+      maxHeight="100vh"
+      p={6}
+      spacing={6}
+      bg="#700002"
+      color="white"
+    >
       <Flex alignItems="center" flexBasis="33%">
         <AnimatePresence exitBeforeEnter>
           <MotionStack
@@ -210,7 +219,13 @@ export default function StreamOverlay() {
         </AnimatePresence>
       </Flex>
       <Stack flexBasis="33%" textAlign="center">
-        <Flex pos="relative" dir="row" minH="36px">
+        <Flex
+          pos="relative"
+          dir="row"
+          minH="36px"
+          border="1px solid"
+          rounded="lg"
+        >
           <MotionBox
             layout
             variants={{
@@ -221,7 +236,10 @@ export default function StreamOverlay() {
             }}
             animate={endgameTimeAnimation}
             bg="green.400"
-            rounded="md"
+            roundedLeft="lg"
+            roundedRight={
+              currentGame.phase === RumbleGamePhase.ENDGAME ? 'lg' : null
+            }
           />
           <MotionBox
             layout
@@ -233,7 +251,9 @@ export default function StreamOverlay() {
             }}
             animate={teleoperatedTimeAnimation}
             bg="green.400"
-            rounded="md"
+            roundedRight={
+              currentGame.phase === RumbleGamePhase.TELEOPERATED ? 'lg' : null
+            }
           />
           <MotionBox
             layout
@@ -246,7 +266,7 @@ export default function StreamOverlay() {
             initial="initial"
             animate={autoTimeAnimation}
             bg="green.400"
-            rounded="md"
+            roundedRight="lg"
           />
           <Text
             ref={timeInPeriodRef}
@@ -263,7 +283,7 @@ export default function StreamOverlay() {
         </Text>
         <Heading ref={scoreRef} />
       </Stack>
-      <MotionStack flexBasis="33%" overflowY="scroll" spacing={1}>
+      <MotionStack flexBasis="33%" overflowY="hidden" spacing={1}>
         {eventHistory.map((event) => {
           let child;
           const isPhaseChangeEvent = !!(event as RumblePhaseChangeEvent).phase;
@@ -296,7 +316,8 @@ export default function StreamOverlay() {
               key={event.timestamp}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, transition: { duration: 0.25 } }}
-              bg={isPhaseChangeEvent ? 'gray.400' : 'gray.300'}
+              bg={isPhaseChangeEvent ? 'gray.200' : 'gray.100'}
+              color="black"
               py={2}
               px={4}
               rounded="lg"

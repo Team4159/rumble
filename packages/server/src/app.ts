@@ -20,7 +20,9 @@ const rootReducer = combineReducers({
 
 export type RootState = ReturnType<typeof rootReducer>;
 
-const preloadedState = JSON.parse(readFileSync(path.join(__dirname, '..', 'state.json'), 'utf8'));
+const preloadedState = JSON.parse(
+  readFileSync(path.join(__dirname, '..', 'state.json'), 'utf8')
+);
 
 const PORT = process.env.CORE_PORT || 8000;
 
