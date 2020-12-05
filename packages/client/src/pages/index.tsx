@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Button, Input } from '@chakra-ui/react';
 import Head from 'next/head';
 
 import {
@@ -21,7 +22,7 @@ enum ScoringEvents {
   PARK = 'PARK',
 }
 
-export default function Home() {
+export default function IndexPage() {
   const { loading, rumbleState, dispatch } = useRumble('http://localhost:8000');
 
   const [teamNumber, setTeamNumber] = useState(1);
@@ -53,32 +54,32 @@ export default function Home() {
           </p>
           <p>Actions</p>
           <div>
-            <button
+            <Button
               type="button"
               onClick={() =>
                 dispatch(addPhaseChangeEvent(currentGame.phase + 1))
               }
             >
               Next Phase
-            </button>
-            <button type="button" onClick={() => dispatch(resetGame())}>
+            </Button>
+            <Button type="button" onClick={() => dispatch(resetGame())}>
               Reset Game
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               onClick={() => dispatch(undoLastScoringEvent())}
             >
               Undo Last Scoring Event
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               onClick={() => dispatch(undoLastPhaseChangeEvent())}
             >
               Undo Last Phase Change Event
-            </button>
+            </Button>
           </div>
           <div>
-            <button
+            <Button
               type="button"
               onClick={() =>
                 dispatch(
@@ -90,8 +91,8 @@ export default function Home() {
               }
             >
               Cross Auto Line
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               onClick={() =>
                 dispatch(
@@ -103,8 +104,8 @@ export default function Home() {
               }
             >
               Score Auto Cube
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               onClick={() =>
                 dispatch(
@@ -116,8 +117,8 @@ export default function Home() {
               }
             >
               Score Teleop Cube
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               onClick={() =>
                 dispatch(
@@ -129,7 +130,7 @@ export default function Home() {
               }
             >
               Park
-            </button>
+            </Button>
           </div>
           <p>History</p>
           <div>
@@ -171,7 +172,7 @@ export default function Home() {
             <li>
               Team {game.teamNumber} - Game {game.number}
             </li>
-            <button
+            <Button
               type="button"
               onClick={() =>
                 dispatch(
@@ -183,13 +184,13 @@ export default function Home() {
               }
             >
               Focus
-            </button>
+            </Button>
           </div>
         ))}
       </ul>
       <div>
         Team Number:{' '}
-        <input
+        <Input
           placeholder="Team Number"
           type="number"
           value={teamNumber}
@@ -198,14 +199,14 @@ export default function Home() {
       </div>
       <div>
         Game Number:{' '}
-        <input
+        <Input
           placeholder="Game Number"
           type="number"
           value={gameNumber}
           onChange={(e) => setGameNumber(+e.target.value)}
         />
       </div>
-      <button
+      <Button
         type="button"
         onClick={() => {
           dispatch(
@@ -217,7 +218,7 @@ export default function Home() {
         }}
       >
         Add Game
-      </button>
+      </Button>
     </div>
   );
 }
