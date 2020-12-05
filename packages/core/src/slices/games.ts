@@ -85,7 +85,7 @@ const gamesSlice = createSlice({
       prepare: (payload: { type: string; points: number }) => {
         return {
           payload: {
-            timestamp: moment().unix(),
+            timestamp: parseInt(moment().format('x'), 10),
             type: payload.type,
             points: payload.points,
           },
@@ -108,7 +108,7 @@ const gamesSlice = createSlice({
       prepare: (phase: RumbleGamePhase) => {
         return {
           payload: {
-            timestamp: moment().unix(),
+            timestamp: parseInt(moment().format('x'), 10),
             phase,
           },
         };
