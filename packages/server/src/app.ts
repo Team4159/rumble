@@ -4,11 +4,15 @@ import logger from 'redux-logger';
 import { gamesReducer } from '@rumble/core';
 import createSocketMiddleware from '@/middleware/socket-io';
 import phaseSwitcherMiddleware from '@/middleware/phase-switcher';
+import persistenceMiddleware from '@/middleware/persistence';
 import { createSocketEngine } from '@/transport/socket-io';
 
 import express from 'express';
 import { createServer } from 'http';
 import cors from 'cors';
+
+import path from 'path';
+import { readFileSync } from 'fs';
 
 const rootReducer = combineReducers({
   games: gamesReducer,
@@ -16,7 +20,7 @@ const rootReducer = combineReducers({
 
 export type RootState = ReturnType<typeof rootReducer>;
 
-const preloadedState = {};
+const preloadedState = JSON.parse(readFileSync(path.join(__dirname, '..', 'state.json'), 'utf8'));
 
 const PORT = process.env.CORE_PORT || 8000;
 
@@ -33,7 +37,8 @@ const rootStore = configureStore({
     getDefaultMiddleware()
       .concat(logger)
       .concat(createSocketMiddleware(io))
-      .concat(phaseSwitcherMiddleware),
+      .concat(phaseSwitcherMiddleware)
+      .concat(persistenceMiddleware),
   devTools: process.env.NODE_ENV !== 'production',
   preloadedState,
 });

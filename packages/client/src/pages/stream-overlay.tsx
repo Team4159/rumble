@@ -143,7 +143,7 @@ export default function StreamOverlay() {
     if (!endgameEvent) {
       endgameTimeAnimation.start('initial');
     } else {
-      const timeElapsed = (time() - teleoperatedEvent.timestamp) / 1000;
+      const timeElapsed = (time() - endgameEvent.timestamp) / 1000;
       doAnimations(endgameTimeAnimation, timeElapsed, PHASE_LENGTHS.ENDGAME);
     }
 
