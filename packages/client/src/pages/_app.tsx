@@ -7,6 +7,13 @@ const customTheme = extendTheme({
     heading: "'Open Sans', sans-serif",
     body: "'Open Sans', sans-serif",
   },
+  styles: {
+    global: {
+      body: {
+        background: 'transparent',
+      },
+    },
+  },
 });
 
 const App = ({ Component, pageProps }) => (

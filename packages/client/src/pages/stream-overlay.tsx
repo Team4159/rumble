@@ -189,12 +189,11 @@ export default function StreamOverlay() {
       dir="row"
       height="100vh"
       maxHeight="100vh"
-      p={6}
+      pX={6}
       spacing={6}
-      bg="#700002"
-      color="white"
+      color="black"
     >
-      <Flex alignItems="center" flexBasis="33%">
+      <Flex direction="column" flexBasis="33%" bg="gray.100">
         <AnimatePresence exitBeforeEnter>
           <MotionStack
             key={`${currentGame.teamNumber}.${currentGame.number}`}
@@ -208,6 +207,9 @@ export default function StreamOverlay() {
             animate="animate"
             exit="exit"
             width="100%"
+            flexGrow={1}
+            justifyContent="center"
+            rounded="lg"
           >
             <Heading key={currentGame.teamNumber}>
               Team {currentGame.teamNumber}
@@ -218,13 +220,15 @@ export default function StreamOverlay() {
           </MotionStack>
         </AnimatePresence>
       </Flex>
-      <Stack flexBasis="33%" textAlign="center">
+      <Flex direction="column" flexBasis="33%">
         <Flex
           pos="relative"
           dir="row"
           minH="36px"
           border="1px solid"
+          borderColor="black"
           rounded="lg"
+          bg="white"
         >
           <MotionBox
             layout
@@ -278,11 +282,21 @@ export default function StreamOverlay() {
             fontSize="xl"
           />
         </Flex>
-        <Text fontSize="xl" fontWeight="semibold">
-          {RumbleGamePhase[currentGame.phase]}
-        </Text>
-        <Heading ref={scoreRef} />
-      </Stack>
+        <Stack
+          width="100%"
+          flexGrow={1}
+          textAlign="center"
+          bg="#700002"
+          color="white"
+          rounded="lg"
+          justifyContent="center"
+        >
+          <Text fontSize="xl" fontWeight="semibold">
+            {RumbleGamePhase[currentGame.phase]}
+          </Text>
+          <Heading ref={scoreRef} />
+        </Stack>
+      </Flex>
       <MotionStack flexBasis="33%" overflowY="hidden" spacing={1}>
         {eventHistory.map((event) => {
           let child;
@@ -317,7 +331,6 @@ export default function StreamOverlay() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, transition: { duration: 0.25 } }}
               bg={isPhaseChangeEvent ? 'gray.200' : 'gray.100'}
-              color="black"
               py={2}
               px={4}
               rounded="lg"
