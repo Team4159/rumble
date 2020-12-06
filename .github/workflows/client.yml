@@ -3,7 +3,7 @@ name: client
 on: [push, pull_request]
 
 jobs:
-  build:
+  client:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
