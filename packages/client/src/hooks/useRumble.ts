@@ -16,13 +16,13 @@ type RootState = {
 const useRumble = (url: string) => {
   const socket = useMemo(() => io(url), [url]);
 
-  const [loading, setLoaded] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [rumbleState, setRumbleState] = useState({} as RootState);
 
   useEffect(() => {
     socket.on('initialRootState', (initialRootState) => {
       setRumbleState(initialRootState);
-      setLoaded(false);
+      setLoading(false);
     });
     socket.on('rootStateDiff', (diff) => {
       setRumbleState((oldState) => {
